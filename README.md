@@ -52,8 +52,8 @@ cd joko-web
 
 ### 🔹 Jika mau clone dari GitHub:
 ```bash
-git clone https://github.com/vokerjok/joko-web.git
-cd joko-web
+git clone https://github.com/vokerjok/joko-npm.git
+cd joko-npm
 ```
 
 ---
