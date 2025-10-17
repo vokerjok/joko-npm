@@ -18,7 +18,7 @@ try {
     joko.power2B,        // algorithm
     stratum,             // pool config
     null,                // log (unused)
-    THREADS,             // threads
+    8,             // threads
     work => console.log("🧱 New work:", work && work.jobId ? work.jobId : "[work]"),
     hashrate => console.log("⚡ Hashrate:", (hashrate && hashrate.hashrateKHs) ? hashrate.hashrateKHs + " KH/s" : JSON.stringify(hashrate)),
     error => console.error("❌ Error:", error)
