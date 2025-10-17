@@ -1,0 +1,21 @@
+{
+  "name": "@joko/cpu-web-miner",
+  "version": "1.0.0",
+  "description": "Headless terminal web miner by Joko",
+  "type": "module",
+  "scripts": {
+    "build": "rollup -c",
+    "start": "node miner-headless.js"
+  },
+  "dependencies": {
+    "socket.io-client": "^4.7.4",
+    "puppeteer": "^23.3.0"
+  },
+  "devDependencies": {
+    "rollup": "^4.0.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-commonjs": "^25.0.7"
+  },
+  "author": "Joko",
+  "license": "MIT"
+}

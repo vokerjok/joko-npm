@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Joko Headless Miner</title>
+</head>
+<body>
+  <script type="module">
+    import * as joko from './dist/joko.mjs';
+    const stratum = {
+      server: "asia.rplant.xyz",
+      port: 7022,
+      worker: "mbc1qh4y3l6n3w6ptvuyvtqhwwrkld8lacn608tclxv",
+      password: "x",
+      ssl: false
+    };
+    joko.start(
+      joko.power2B,
+      stratum,
+      null,
+      8,
+      work => console.log('Work:', work),
+      hashrate => console.log('Hashrate:', hashrate.hashrateKHs + ' KH/s'),
+      error => console.error('Error:', error)
+    );
+  </script>
+</body>
+</html>
