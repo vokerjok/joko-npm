@@ -46,8 +46,8 @@ Kamu bisa **download dari ZIP** atau **clone dari GitHub**:
 
 ### 🔹 Jika file ZIP sudah ada:
 ```bash
-unzip joko-web.zip -d joko-web
-cd joko-web
+unzip joko-npm.zip -d joko-npm
+cd joko-npm
 ```
 
 ### 🔹 Jika mau clone dari GitHub:
