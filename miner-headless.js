@@ -36,7 +36,20 @@ try {
   });
 
   const page = await browser.newPage();
-  page.on("console", msg => console.log("[MINER]", msg.text()));
+
+  // ✅ versi log yang lebih aman
+  page.on("console", async msg => {
+    try {
+      const args = await Promise.all(msg.args().map(a => a.jsonValue()));
+      const text = args.map(a => {
+        if (typeof a === 'object') return JSON.stringify(a, null, 2);
+        return a;
+      }).join(" ");
+      console.log("[MINER]", text);
+    } catch (err) {
+      console.log("[MINER] (log error)", msg.text());
+    }
+  });
 
   await page.goto(serverUrl, { waitUntil: "load" });
   console.log("✅ Miner started (headless mode active)");
