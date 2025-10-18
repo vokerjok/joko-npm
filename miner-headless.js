@@ -1,59 +1,28 @@
 import puppeteer from "puppeteer";
-import { execSync, spawn } from "child_process";
+
+const url = "file://" + process.cwd() + "/index.html";
 
 console.log("🚀 Launching Joko Web Miner in headless Chromium...");
+console.log("🌐 Opening:", url);
 
-try {
-  // cari lokasi chromium dari sistem
-  const chromiumPath = execSync("which chromium").toString().trim();
-  console.log("✅ Using system Chromium:", chromiumPath);
+(async () => {
+  try {
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: [
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--disable-gpu",
+        "--disable-dev-shm-usage"
+      ]
+    });
 
-  // buat port acak antara 8000–9000
-  const serverPort = Math.floor(Math.random() * 1000) + 8000;
-  const serverUrl = `http://127.0.0.1:${serverPort}/index.html`;
+    const page = await browser.newPage();
+    page.on("console", msg => console.log("[MINER]", msg.text()));
 
-  console.log(`🌐 Starting local server on port ${serverPort}...`);
-  const server = spawn("python3", ["-m", "http.server", serverPort, "--bind", "127.0.0.1"], {
-    cwd: process.cwd(),
-    stdio: "inherit"
-  });
-
-  // tunggu server siap
-  await new Promise(r => setTimeout(r, 2000));
-
-  console.log("🌐 Opening:", serverUrl);
-
-  const browser = await puppeteer.launch({
-    headless: true,
-    executablePath: chromiumPath,
-    args: [
-      "--no-sandbox",
-      "--disable-setuid-sandbox",
-      "--disable-gpu",
-      "--disable-dev-shm-usage",
-      "--remote-debugging-port=0"
-    ]
-  });
-
-  const page = await browser.newPage();
-
-  // ✅ versi log yang lebih aman
-  page.on("console", async msg => {
-    try {
-      const args = await Promise.all(msg.args().map(a => a.jsonValue()));
-      const text = args.map(a => {
-        if (typeof a === 'object') return JSON.stringify(a, null, 2);
-        return a;
-      }).join(" ");
-      console.log("[MINER]", text);
-    } catch (err) {
-      console.log("[MINER] (log error)", msg.text());
-    }
-  });
-
-  await page.goto(serverUrl, { waitUntil: "load" });
-  console.log("✅ Miner started (headless mode active)");
-
-} catch (err) {
-  console.error("❌ Failed to start headless miner:", err);
-}
+    await page.goto(url, { waitUntil: "load" });
+    console.log("✅ Miner started (headless mode active)");
+  } catch (err) {
+    console.error("❌ Failed to start headless miner:", err);
+  }
+})();
